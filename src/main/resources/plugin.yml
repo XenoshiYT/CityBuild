@@ -1,0 +1,87 @@
+name: CityBuild
+version: '${project.version}'
+main: de.xenodev.unlimitedblocks.CityBuild
+author: XenoDEV
+api-version: 1.19
+softdepend: [Vault]
+
+commands:
+  bank:
+    description: Benutze deine Bank per Command
+  broadcast:
+    aliases: [ bc ]
+    description: Sende eine Nachricht an alle Spieler
+  clearchat:
+    aliases: [ chatclear, cc ]
+    description: Lösche den Chat für alle
+  enderchest:
+    aliases: [ ec ]
+    description: Verwende deine Enderchest per Command
+  feed:
+    description: Setze deinen Hunger auf das Maximum
+  fly:
+    description: Setze dich in den Fly
+  gamemode:
+    aliases: [ gm ]
+    description: Verändere deinen Gamemode
+  heal:
+    description: Setze dein Leben auf das Maximum
+  invsee:
+    aliases: [ is ]
+    description: Schaue das Inventar von anderen an
+  ping:
+    description: Schaue deinen Ping an
+  rename:
+    description: Nenne den Namen deines Items um
+  repair:
+    description: Repariere das Item in deiner Hand
+  reward:
+    description: Hole deine Belohnung ab
+  signate:
+    aliases: [ sign ]
+    description: Setze deinem Item eine Signatur
+  skull:
+    description: Gebe dir einen beliebigen Kopf
+  spawn:
+    description: Teleportiere dich zum Spawn
+  tp:
+    aliases: [ teleport ]
+    description: Teleportiere dich beliebig
+  tphere:
+    description: Teleportiere jemanden zu dir
+  tpall:
+    description: Teleportiere alle zu dir
+  time:
+    description: Setze die Zeit um
+  vanish:
+    description: Gehe in den Vanish
+  warp:
+    description: Teleportiere dich zu einem Warp
+  weather:
+    description: Setze das Wetter um
+  workbench:
+    aliases: [ wb ]
+    description: Benutze eine Workbench per Command
+  playerinfo:
+    aliases: [ pi ]
+    description: Schaue deine Spielerinformationen an
+  tpa:
+    description: Sende einem Spieler eine TPA-Anfrage
+  tpaccept:
+    description: Nimm eine TPA-Anfrage an
+  tpdeny:
+    description: Lehne eine TPA-Anfrage ab
+  msg:
+    description: Sende jemand eine private Nachricht
+  r:
+    description: Antworte der letzen privaten Nachricht direkt
+  settings:
+    description: Stelle deine persönlichen Einstellungen ein
+  money:
+    aliases: [ bal, balance ]
+    description: Schaue dein Bargeld an per Command
+  pay:
+    description: Sende an jemanden Geld per Command
+  economy:
+    aliases: [ eco ]
+    description: Bearbeite das Geld von Spielern per Command
