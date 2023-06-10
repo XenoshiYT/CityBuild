@@ -40,16 +40,16 @@ public class SignateCMD implements CommandExecutor, TabCompleter {
                 return true;
             }
             ItemMeta itemMeta = itemStack.getItemMeta();
-            String itemLore = "";
+            StringBuilder stringBuilder = new StringBuilder(args[0]);
             if(args.length == 0){
                 p.sendMessage(CityBuild.getPrefix() + "§7Falsche Länge: §c" + args.length);
                 return true;
             }
-            for(int i = 0; i < args.length; i++){
-                itemLore = itemLore + args[i] + " ";
+            for(int i = 1; i < args.length; i++){
+                stringBuilder.append(" ").append(args[i]);
             }
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            itemMeta.setLore(Arrays.asList("", itemLore.replaceAll("&", "§"), "§7-------------------------------------------", "§7Signiert von §e§l" + p.getName() + " §7am §a§l" + simpleDateFormat.format(new Date())));
+            itemMeta.setLore(Arrays.asList("", stringBuilder.toString().replaceAll("&", "§"), "§7-------------------------------------------", "§7Signiert von §e§l" + p.getName() + " §7am §a§l" + simpleDateFormat.format(new Date())));
             itemStack.setItemMeta(itemMeta);
             p.sendMessage(CityBuild.getPrefix() + "§7Du hast das Item signiert");
             if(!p.hasPermission("ub.command.signate.bypass")){

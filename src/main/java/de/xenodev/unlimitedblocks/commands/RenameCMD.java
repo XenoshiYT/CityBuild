@@ -37,17 +37,19 @@ public class RenameCMD implements CommandExecutor, TabCompleter {
                 return true;
             }
             ItemMeta itemMeta = itemStack.getItemMeta();
-            String itemName = "";
+            StringBuilder stringBuilder = new StringBuilder(args[0]);
             if(args.length == 0){
-                p.sendMessage(CityBuild.getPrefix() + "§7Falsche Länge: §c" + args.length);
+                itemMeta.setDisplayName(null);
+                itemStack.setItemMeta(itemMeta);
+                p.sendMessage(CityBuild.getPrefix() + "§7Du den Namen vom Item zurückgesetzt");
                 return true;
             }
-            for(int i = 0; i < args.length; i++){
-                itemName = itemName + args[i] + " ";
+            for(int i = 1; i < args.length; i++){
+                stringBuilder.append(" ").append(args[i]);
             }
-            itemMeta.setDisplayName(itemName.replaceAll("&", "§"));
+            itemMeta.setDisplayName(stringBuilder.toString().replaceAll("&", "§"));
             itemStack.setItemMeta(itemMeta);
-            p.sendMessage(CityBuild.getPrefix() + "§7Du hast das Item umgenannt");
+            p.sendMessage(CityBuild.getPrefix() + "§7Du hast das Item zu " + stringBuilder.toString().replaceAll("&", "§") + " §7genannt");
             if(!p.hasPermission("ub.command.rename.bypass")){
                 commandCooldown.add(p);
                 new BukkitRunnable(){

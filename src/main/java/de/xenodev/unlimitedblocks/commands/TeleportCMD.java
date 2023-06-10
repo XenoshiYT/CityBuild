@@ -31,6 +31,10 @@ public class TeleportCMD implements CommandExecutor, TabCompleter {
                         p.sendMessage(CityBuild.getPrefix() + "§7Ein Spieler ist nicht online");
                         return true;
                     }
+                    if(tpplayer == target){
+                        p.sendMessage(CityBuild.getPrefix() + "§7Du kannst nicht die Person zu sich teleportieren");
+                        return true;
+                    }
                     tpplayer.teleport(target);
                     p.sendMessage(CityBuild.getPrefix() + "§7Du hast §6" + tpplayer.getName() + " §7zu §a" + target.getName() + " §7teleportiert");
                 }else if(args.length == 1){
@@ -43,8 +47,12 @@ public class TeleportCMD implements CommandExecutor, TabCompleter {
                         p.sendMessage(CityBuild.getPrefix() + "§7Der Spieler ist nicht online");
                         return true;
                     }
+                    if(p == target){
+                        p.sendMessage(CityBuild.getPrefix() + "§7Du kannst dich nicht zu dir teleportieren");
+                        return true;
+                    }
                     p.teleport(target);
-                    p.sendMessage(CityBuild.getPrefix() + "§7du hast dich zu §6" + target.getName() + " §7teleportiert");
+                    p.sendMessage(CityBuild.getPrefix() + "§7Du hast dich zu §6" + target.getName() + " §7teleportiert");
                 }else{
                     p.sendMessage(CityBuild.getPrefix() + "§7Falsche Länge: §c" + args.length);
                 }
@@ -60,8 +68,12 @@ public class TeleportCMD implements CommandExecutor, TabCompleter {
                     p.sendMessage(CityBuild.getPrefix() + "§7Der Spieler ist nicht online");
                     return true;
                 }
+                if(p == target){
+                    p.sendMessage(CityBuild.getPrefix() + "§7Du kannst dich nicht zu dir teleportieren");
+                    return true;
+                }
                 target.teleport(p);
-                p.sendMessage(CityBuild.getPrefix() + "§7du hast §6" + target.getName() + " §7zu dir teleportiert");
+                p.sendMessage(CityBuild.getPrefix() + "§7Du hast §6" + target.getName() + " §7zu dir teleportiert");
             }
 
             if(cmd.getName().equalsIgnoreCase("tpall")){
@@ -70,7 +82,9 @@ public class TeleportCMD implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 for(Player all : Bukkit.getOnlinePlayers()){
-                    all.teleport(p);
+                    if(all != p) {
+                        all.teleport(p);
+                    }
                 }
                 p.sendMessage(CityBuild.getPrefix() + "§7Du hast §calle §7zu dir teleportiert");
             }

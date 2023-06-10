@@ -55,7 +55,7 @@ public class LocationManager {
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 10F);
             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 0));
         }else{
-            p.sendMessage(CityBuild.getPrefix() + "§7Die Location §6" + locationName + " §7existiert nicht");
+            p.sendMessage(CityBuild.getPrefix() + "§7Der Warp §6" + locationName + " §7existiert nicht");
         }
     }
 

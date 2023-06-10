@@ -1,5 +1,6 @@
 package de.xenodev.unlimitedblocks;
 
+import de.xenodev.unlimitedblocks.MySQL.MySQL;
 import de.xenodev.unlimitedblocks.commands.*;
 import de.xenodev.unlimitedblocks.listeners.*;
 import de.xenodev.unlimitedblocks.utils.*;
@@ -21,12 +22,14 @@ public class CityBuild extends JavaPlugin {
     private static Chat chat;
     private static Permission permission;
     private static VanishManager vanishManager;
-    private static String prefix = "§e§lUnlimitedBlocks §8| ";
+    private static String prefix = "§e§lCityBuild §8| ";
+    public static MySQL mysql;
 
     @Override
     public void onEnable() {
         instance = this;
         vanishManager = new VanishManager(this);
+        ConnectMySQL();
         if(!setupEconomy()){
             getServer().getConsoleSender().sendMessage(prefix + "§7Das Plugin §6§lVault §7wurde nicht gefunden! \n §7Das Plugin wird §c§ldeaktiviert");
             getServer().getPluginManager().disablePlugin(this);
@@ -44,11 +47,19 @@ public class CityBuild extends JavaPlugin {
         setupZins();
         AutomessageManager.startAutomessage();
         ScoreboardManager.updateScoreboard();
+        AutomessageManager.loadMessages();
+        FarmweltManager.setupTimer();
+        KitManager.setupCooldown();
     }
 
     @Override
     public void onDisable() {
+        mysql.close();
+    }
 
+    private void ConnectMySQL(){
+        mysql = new MySQL("localhost", "unlimitedblocks", "unlimitedblocks", "[9j0pMyKvm5TLD_E]");
+        mysql.update("CREATE TABLE IF NOT EXISTS Time(UUID VARCHAR(100),HOURS BIGINT,MINUTES INT,SECONDS INT)");
     }
 
     private void commands(){
@@ -68,9 +79,9 @@ public class CityBuild extends JavaPlugin {
         getCommand("signate").setExecutor(new SignateCMD());
         getCommand("skull").setExecutor(new SkullCMD());
         getCommand("spawn").setExecutor(new SpawnCMD());
-        getCommand("tp").setTabCompleter(new TeleportCMD());
-        getCommand("tphere").setTabCompleter(new TeleportCMD());
-        getCommand("tpall").setTabCompleter(new TeleportCMD());
+        getCommand("tp").setExecutor(new TeleportCMD());
+        getCommand("tphere").setExecutor(new TeleportCMD());
+        getCommand("tpall").setExecutor(new TeleportCMD());
         getCommand("time").setExecutor(new TimeCMD());
         getCommand("vanish").setExecutor(new VanishCMD());
         getCommand("warp").setExecutor(new WarpCMD());
@@ -83,6 +94,9 @@ public class CityBuild extends JavaPlugin {
         getCommand("msg").setExecutor(new MsgCMD());
         getCommand("r").setExecutor(new MsgCMD());
         getCommand("settings").setExecutor(new SettingsCMD());
+        getCommand("home").setExecutor(new HomeCMD());
+        getCommand("reset").setExecutor(new ResetCMD());
+        getCommand("kit").setExecutor(new KitCMD());
     }
 
     private void tabcomplets(){
@@ -116,10 +130,12 @@ public class CityBuild extends JavaPlugin {
         getCommand("msg").setTabCompleter(new MsgCMD());
         getCommand("r").setTabCompleter(new MsgCMD());
         getCommand("settings").setTabCompleter(new SettingsCMD());
+        getCommand("home").setTabCompleter(new HomeCMD());
+        getCommand("reset").setTabCompleter(new ResetCMD());
+        getCommand("kit").setTabCompleter(new KitCMD());
     }
 
     private void events(PluginManager pluginManager){
-        pluginManager.registerEvents(new ChatListener(), this);
         pluginManager.registerEvents(new ColorEventsListener(), this);
         pluginManager.registerEvents(new JoinListener(), this);
         pluginManager.registerEvents(new LoginListener(), this);
@@ -127,6 +143,10 @@ public class CityBuild extends JavaPlugin {
         pluginManager.registerEvents(new QuitListener(), this);
         pluginManager.registerEvents(new BankListener(), this);
         pluginManager.registerEvents(new SettingsListener(), this);
+        pluginManager.registerEvents(new FarmweltListener(), this);
+        pluginManager.registerEvents(new FlyListener(), this);
+        pluginManager.registerEvents(new PortalListener(), this);
+        pluginManager.registerEvents(new DeathListener(), this);
     }
 
     public static CityBuild getInstance() {
@@ -187,6 +207,6 @@ public class CityBuild extends JavaPlugin {
                     }
                 }
             }
-        }, 20L, 20L);
+        }, 20L, 3*60*60*20);
     }
 }

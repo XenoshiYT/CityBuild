@@ -43,21 +43,21 @@ public class SettingsCMD implements CommandExecutor, TabCompleter {
             }
 
             if(settingsManager.getSetting("allow-socialspy")){
-                inventory.setItem(0, new ItemBuilder(Material.ENDER_EYE).setName("§6Allow Social Spy")
+                inventory.setItem(1, new ItemBuilder(Material.ENDER_EYE).setName("§6Allow Social Spy")
                         .setLore("§7Diese Einstellung ist §a§lAktiviert", "", "§7§oSchaue dir die MSG-Nachrichten von anderen an")
                         .setFlag(ItemFlag.HIDE_ENCHANTS).setEnchantment(Enchantment.CHANNELING, 1).build());
             }else{
-                inventory.setItem(0, new ItemBuilder(Material.ENDER_EYE).setName("§6Allow Social Spy")
+                inventory.setItem(1, new ItemBuilder(Material.ENDER_EYE).setName("§6Allow Social Spy")
                         .setLore("§7Diese Einstellung ist §c§lDeaktiviert", "", "§7§oSchaue dir die MSG-Nachrichten von anderen an")
                         .build());
             }
 
             if(settingsManager.getSetting("allow-msg")){
-                inventory.setItem(0, new ItemBuilder(Material.ENDER_EYE).setName("§6Allow MSG")
+                inventory.setItem(2, new ItemBuilder(Material.ENDER_EYE).setName("§6Allow MSG")
                         .setLore("§7Diese Einstellung ist §a§lAktiviert", "", "§7§oErlaube Personen dir MSG-Nachrichten zu schreiben")
                         .setFlag(ItemFlag.HIDE_ENCHANTS).setEnchantment(Enchantment.CHANNELING, 1).build());
             }else{
-                inventory.setItem(0, new ItemBuilder(Material.ENDER_EYE).setName("§6Allow MSG")
+                inventory.setItem(2, new ItemBuilder(Material.ENDER_EYE).setName("§6Allow MSG")
                         .setLore("§7Diese Einstellung ist §c§lDeaktiviert", "", "§7§oErlaube Personen dir MSG-Nachrichten zu schreiben")
                         .build());
             }

@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class TpaCMD implements CommandExecutor, TabCompleter {
 
-    private HashMap<Player, ArrayList<Player>> request = new HashMap<>();
+    private HashMap<Player, ArrayList<String>> request = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -41,22 +42,42 @@ public class TpaCMD implements CommandExecutor, TabCompleter {
                     }
                     if(request.containsKey(to)){
                         if(!request.get(to).contains(from)){
-                            request.get(to).add(from);
+                            request.get(to).add(from.getName());
                             from.sendMessage(CityBuild.getPrefix() + "§7Du hast §6" + to.getName() + " §7eine Anfrage gesendet");
                             to.sendMessage(CityBuild.getPrefix() + "§7Du hast eine Anfrage von §6" + from.getName() + " §7erhalten");
-                            to.sendMessage(CityBuild.getPrefix() + "§7Akzeptieren kannst du den Teleport mit §a/tpaccept");
-                            to.sendMessage(CityBuild.getPrefix() + "§7Ablehnen kannst du den Teleport mit §c/tpdeny");
+                            to.sendMessage(CityBuild.getPrefix() + "§c§oDu hast §6§o15 Sekunden §c§oZeit die Anfrage anzunehmen!");
+                            to.sendMessage(CityBuild.getPrefix() + "§7Akzeptieren kannst du den Teleport mit §a/tpaccept <name>");
+                            to.sendMessage(CityBuild.getPrefix() + "§7Ablehnen kannst du den Teleport mit §c/tpdeny <name>");
+                            new BukkitRunnable(){
+
+                                @Override
+                                public void run() {
+                                    request.get(to).remove(from);
+                                    from.sendMessage(CityBuild.getPrefix() + "§7Deine Anfrage an §6" + to.getName() + " §7ist abgelaufen");
+                                    to.sendMessage(CityBuild.getPrefix() + "§7Die Anfrage von §6" + from.getName() + " §7 ist abgelaufen");
+                                }
+                            }.runTaskLater(CityBuild.getInstance(), 20*15);
                         }else{
                             from.sendMessage(CityBuild.getPrefix() + "§7Du hast §6" + to.getName() + " §7bereits eine Anfrage gesendet");
                         }
                     }else{
-                        ArrayList<Player> createRequest = new ArrayList<>();
-                        createRequest.add(from);
+                        ArrayList<String> createRequest = new ArrayList<>();
+                        createRequest.add(from.getName());
                         request.put(to, createRequest);
                         from.sendMessage(CityBuild.getPrefix() + "§7Du hast §6" + to.getName() + " §7eine Anfrage gesendet");
                         to.sendMessage(CityBuild.getPrefix() + "§7Du hast eine Anfrage von §6" + from.getName() + " §7erhalten");
-                        to.sendMessage(CityBuild.getPrefix() + "§7Akzeptieren kannst du den Teleport mit §a/tpaccept");
-                        to.sendMessage(CityBuild.getPrefix() + "§7Ablehnen kannst du den Teleport mit §c/tpdeny");
+                        to.sendMessage(CityBuild.getPrefix() + "§c§oDu hast §6§o15 Sekunden §c§oZeit die Anfrage anzunehmen!");
+                        to.sendMessage(CityBuild.getPrefix() + "§7Akzeptieren kannst du den Teleport mit §a/tpaccept <name>");
+                        to.sendMessage(CityBuild.getPrefix() + "§7Ablehnen kannst du den Teleport mit §c/tpdeny <name>");
+                        new BukkitRunnable(){
+
+                            @Override
+                            public void run() {
+                                request.get(to).remove(from);
+                                from.sendMessage(CityBuild.getPrefix() + "§7Deine Anfrage an §6" + to.getName() + " §7ist abgelaufen");
+                                to.sendMessage(CityBuild.getPrefix() + "§7Die Anfrage von §6" + from.getName() + " §7 ist abgelaufen");
+                            }
+                        }.runTaskLater(CityBuild.getInstance(), 20*15);
                     }
                 }else{
                     from.sendMessage(CityBuild.getPrefix() + "§7Falsche Länge: §c" + args.length);
@@ -67,13 +88,13 @@ public class TpaCMD implements CommandExecutor, TabCompleter {
                 if(args.length == 1){
                     Player from2 = Bukkit.getPlayerExact(args[0]);
                     if(request.containsKey(from)){
-                        if(request.get(from).contains(from2)){
+                        if(request.get(from).contains(from2.getName())){
                             if(!from2.isOnline()){
                                 from.sendMessage(CityBuild.getPrefix() + "§7Der Spieler ist nicht online");
                                 return true;
                             }
                             from2.teleport(from);
-                            request.get(from).remove(from2);
+                            request.get(from).remove(from2.getName());
                             from.sendMessage(CityBuild.getPrefix() + "§7Du hast die Anfrage von §6" + from2.getName() + " §7angenommen");
                             from2.sendMessage(CityBuild.getPrefix() + "§6" + from.getName() + " §7hat deine Anfrage angenommen");
                         }else{
@@ -91,12 +112,12 @@ public class TpaCMD implements CommandExecutor, TabCompleter {
                 if(args.length == 1){
                     Player from2 = Bukkit.getPlayerExact(args[0]);
                     if(request.containsKey(from)){
-                        if(request.get(from).contains(from2)){
+                        if(request.get(from).contains(from2.getName())){
                             if(!from2.isOnline()){
                                 from.sendMessage(CityBuild.getPrefix() + "§7Der Spieler ist nicht online");
                                 return true;
                             }
-                            request.get(from).remove(from2);
+                            request.get(from).remove(from2.getName());
                             from.sendMessage(CityBuild.getPrefix() + "§7Du hast die Anfrage von §6" + from2.getName() + " §7abgelehnt");
                             from2.sendMessage(CityBuild.getPrefix() + "§6" + from.getName() + " §7hat deine Anfrage abgelehnt");
                         }else{
@@ -121,20 +142,26 @@ public class TpaCMD implements CommandExecutor, TabCompleter {
         ArrayList<String> arrayList = new ArrayList();
 
         if(cmd.getName().equalsIgnoreCase("tpa")){
-            for(Player all : Bukkit.getOnlinePlayers()){
-                arrayList.add(all.getName());
+            if(args.length == 1) {
+                for (Player all : Bukkit.getOnlinePlayers()) {
+                    arrayList.add(all.getName());
+                }
             }
         }
 
         if(cmd.getName().equalsIgnoreCase("tpaccept")){
-            for(Player all : request.get(sender)){
-                arrayList.add(all.getName());
+            if(args.length == 1) {
+                for (String all : request.get(sender)) {
+                    arrayList.add(all);
+                }
             }
         }
 
         if(cmd.getName().equalsIgnoreCase("tpdeny")){
-            for(Player all : request.get(sender)){
-                arrayList.add(all.getName());
+            if(args.length == 1) {
+                for (String all : request.get(sender)) {
+                    arrayList.add(all);
+                }
             }
         }
 

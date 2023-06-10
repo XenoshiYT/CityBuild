@@ -77,11 +77,9 @@ commands:
     description: Antworte der letzen privaten Nachricht direkt
   settings:
     description: Stelle deine persönlichen Einstellungen ein
-  money:
-    aliases: [ bal, balance ]
-    description: Schaue dein Bargeld an per Command
-  pay:
-    description: Sende an jemanden Geld per Command
-  economy:
-    aliases: [ eco ]
-    description: Bearbeite das Geld von Spielern per Command
+  home:
+    description: Teleportiere dich zu deinen Homes
+  reset:
+    description: Resete die Farmwelt per Command
+  kit:
+    description: Hol dir ein Kit per Command

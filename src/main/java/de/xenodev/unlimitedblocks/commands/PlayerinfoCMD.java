@@ -3,6 +3,7 @@ package de.xenodev.unlimitedblocks.commands;
 import de.xenodev.unlimitedblocks.CityBuild;
 import de.xenodev.unlimitedblocks.MySQL.TimeAPI;
 import de.xenodev.unlimitedblocks.utils.PlayerManager;
+import de.xenodev.unlimitedblocks.utils.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -22,15 +23,15 @@ public class PlayerinfoCMD implements CommandExecutor, TabCompleter {
         if(sender instanceof Player){
             Player p = (Player) sender;
             if(args.length == 1){
-                OfflinePlayer offlinePlayer = Bukkit.getPlayerExact(args[0]);
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUIDFetcher.getUUID(args[0]));
                 PlayerManager playerManager = new PlayerManager(offlinePlayer);
                 if(playerManager.isCreated()) {
                     p.sendMessage(CityBuild.getPrefix() + "§7Informationen von §e§l" + offlinePlayer.getName());
                     p.sendMessage("§7First Join: §6" + playerManager.getFirstJoin());
                     p.sendMessage("§7Last Join: §6" + playerManager.getLastJoin());
                     p.sendMessage("§7Total Joins: §6" + playerManager.getTotalJoin());
-                    p.sendMessage("§7Playtime: §6" + new TimeAPI().getTime(offlinePlayer));
-                    p.sendMessage("§7UUID: §6" + p.getUniqueId());
+                    p.sendMessage("§7Playtime: §6" + new TimeAPI().changeTime(offlinePlayer.getUniqueId()));
+                    p.sendMessage("§7UUID: §6" + offlinePlayer.getUniqueId());
                     if (p.hasPermission("ub.command.playerinfo.admin")) {
                         p.sendMessage("§7Last Position:"
                                 + "\n§8- §7X: §a" + playerManager.getLastPosition().getX()
@@ -54,7 +55,7 @@ public class PlayerinfoCMD implements CommandExecutor, TabCompleter {
                 p.sendMessage("§7First Join: §6" + playerManager.getFirstJoin());
                 p.sendMessage("§7Last Join: §6" + playerManager.getLastJoin());
                 p.sendMessage("§7Total Joins: §6" + playerManager.getTotalJoin());
-                p.sendMessage("§7Playtime: §6" + new TimeAPI().getTime(p));
+                p.sendMessage("§7Playtime: §6" + new TimeAPI().changeTime(p.getUniqueId()));
                 p.sendMessage("§7UUID: §6" + p.getUniqueId());
                 p.sendMessage("§7Last Position:"
                         + "\n§8- §7X: §a" + playerManager.getLastPosition().getX()

@@ -2,11 +2,17 @@ package de.xenodev.unlimitedblocks.commands;
 
 import de.xenodev.unlimitedblocks.CityBuild;
 import de.xenodev.unlimitedblocks.utils.LocationManager;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +26,18 @@ public class WarpCMD implements CommandExecutor, TabCompleter {
             Player p = (Player) sender;
 
             if(args.length == 1){
-                String stringName = args[0];
-                LocationManager locationManager = new LocationManager(stringName);
-                locationManager.teleportLocation(p);
+                if(args[0].equalsIgnoreCase("Farmwelt")){
+                    Location location = new Location(Bukkit.getWorld("farmwelt"), 0, 0, 0);
+                    Block block = Bukkit.getWorld("farmwelt").getHighestBlockAt(location);
+                    p.teleport(block.getLocation().add(0, 1, 0));
+                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 10F);
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 0));
+                    p.sendMessage(CityBuild.getPrefix() + "§7Du hast dich zum Warp §6Farmwelt §7teleportiert");
+                }else {
+                    String stringName = args[0];
+                    LocationManager locationManager = new LocationManager(stringName);
+                    locationManager.teleportLocation(p);
+                }
             }else if(args.length == 2){
                 String stringName = args[1];
                 if(args[0].equalsIgnoreCase("delete")){
@@ -60,8 +75,13 @@ public class WarpCMD implements CommandExecutor, TabCompleter {
         ArrayList<String> arrayList = new ArrayList<>();
 
         if(args.length == 1){
-            arrayList.add("delete");
-            arrayList.add("create");
+            if(sender.hasPermission("ub.command.warp.create")){
+                arrayList.add("create");
+            }
+            if(sender.hasPermission("ub.command.warp.delete")) {
+                arrayList.add("delete");
+            }
+            arrayList.add("Farmwelt");
             for(Object stringName : LocationManager.getLocationList()){
                 arrayList.add(stringName.toString());
             }

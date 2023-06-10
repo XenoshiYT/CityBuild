@@ -1,6 +1,7 @@
 package de.xenodev.unlimitedblocks.commands;
 
 import de.xenodev.unlimitedblocks.CityBuild;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,18 +27,14 @@ public class RepairCMD implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     for(ItemStack itemStack : p.getInventory().getContents()){
-                        if(itemStack == null) {
-                            p.sendMessage(CityBuild.getPrefix() + " §7Du hast keine Items zum Reparieren");
-                            return true;
+                        if(itemStack != null) {
+                            itemStack.setDurability((short) 0);
                         }
-                        itemStack.setDurability((short) 0);
                     }
                     for(ItemStack itemStack : p.getInventory().getArmorContents()){
-                        if(itemStack == null) {
-                            p.sendMessage(CityBuild.getPrefix() + " §7Du hast keine Rüstung zum Reparieren");
-                            return true;
+                        if(itemStack != null) {
+                            itemStack.setDurability((short) 0);
                         }
-                        itemStack.setDurability((short) 0);
                     }
                     p.sendMessage(CityBuild.getPrefix() + "§7Du hast deine Items repariert");
                 }else{

@@ -37,11 +37,6 @@ public class EconomyManager {
         economy.withdrawPlayer(p, amount);
     }
 
-    public void setMoney(Double amount){
-        removeMoney(getMoney());
-        addMoney(amount);
-    }
-
     public Double getBank(){
         return cfg.getDouble(p.getUniqueId() + ".Amount");
     }

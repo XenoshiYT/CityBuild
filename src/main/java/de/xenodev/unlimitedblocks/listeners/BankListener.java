@@ -67,6 +67,7 @@ public class BankListener implements Listener {
                 addBank.remove(p);
             }else{
                 p.sendMessage(CityBuild.getPrefix() + "§7Du hast nicht genügend Geld in Bar");
+                addBank.remove(p);
             }
         }else if(removeBank.contains(p)){
             e.setCancelled(true);
@@ -83,6 +84,7 @@ public class BankListener implements Listener {
                 removeBank.remove(p);
             }else{
                 p.sendMessage(CityBuild.getPrefix() + "§7Du hast nicht genügend Geld auf der Bank");
+                removeBank.remove(p);
             }
         }
     }

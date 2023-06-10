@@ -25,7 +25,7 @@ public class SpawnCMD implements CommandExecutor, TabCompleter {
 
             if(args.length == 1){
                 if(args[0].equalsIgnoreCase("create")) {
-                    LocationManager locationManager = new LocationManager("SPAWN", p.getLocation());
+                    LocationManager locationManager = new LocationManager("Spawn", p.getLocation());
                     if (!p.hasPermission("ub.command.spawn.create")) {
                         p.sendMessage(CityBuild.getPrefix() + "§7Dir fehlt die Permission: §6" + "ub.command.spawn.create");
                         return true;
@@ -36,7 +36,7 @@ public class SpawnCMD implements CommandExecutor, TabCompleter {
                     p.sendMessage(CityBuild.getPrefix() + "§7Falscher Syntax: §c" + args[0]);
                 }
             }else{
-                LocationManager locationManager = new LocationManager("SPAWN");
+                LocationManager locationManager = new LocationManager("Spawn");
                 Location location = locationManager.loadLocation();
                 if(location == null){
                     p.sendMessage(CityBuild.getPrefix() + "§7Der §6Spawn §7wurde noch nicht gesetzt");

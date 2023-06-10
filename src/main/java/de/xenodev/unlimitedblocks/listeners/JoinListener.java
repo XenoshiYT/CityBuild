@@ -20,12 +20,12 @@ public class JoinListener implements Listener {
         if(!p.hasPermission("ub.command.vanish.bypass")) {
             vanishManager.hideAll(p);
         }
-        LocationManager locationManager = new LocationManager("SPAWN");
-        if(!p.hasPermission("ub.event.bypass.spawn")){
-            Location location = locationManager.loadLocation();
-            if(location == null){
-                p.sendMessage(CityBuild.getPrefix() + "§7Der §6Spawn §7wurde noch nicht gesetzt");
-            }else{
+        LocationManager locationManager = new LocationManager("Spawn");
+        Location location = locationManager.loadLocation();
+        if(location == null){
+            p.sendMessage(CityBuild.getPrefix() + "§7Der §6Spawn §7wurde noch nicht gesetzt");
+        }else{
+            if(!p.hasPermission("ub.event.bypass.spawn")) {
                 p.teleport(location);
                 p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 100, 10F);
                 p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 1));
@@ -34,8 +34,9 @@ public class JoinListener implements Listener {
         e.setJoinMessage("");
         EconomyManager economyManager = new EconomyManager(p);
         economyManager.createBank();
+        String moneyAmount = String.format("%.2f", economyManager.getOfflineZins());
         if(economyManager.getOfflineZins() != 0){
-            p.sendMessage(CityBuild.getPrefix() + "§7Du hast Offline §e" + economyManager.getOfflineZins() + " §7€ an Zinsen bekommen");
+            p.sendMessage(CityBuild.getPrefix() + "§7Du hast Offline §e" + moneyAmount + " §7€ an Zinsen bekommen");
             economyManager.resetOfflineZins();
         }
 

@@ -6,3 +6,6 @@
 automessages:
   - Ich spiele Minecraft
   - Hier macht Zocken spaß
+
+### Resettimer in Sekunden
+resettime: 604800

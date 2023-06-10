@@ -19,25 +19,25 @@ public class BroadcastCMD implements CommandExecutor, TabCompleter {
         if(sender instanceof Player){
             Player p = (Player) sender;
 
-            String messageString = "";
+            StringBuilder stringBuilder = new StringBuilder(args[0]);
             if(args.length == 0){
                 p.sendMessage(CityBuild.getPrefix() + "§7Falsche Länge: §c" + args.length);
                 return true;
             }
-            for(int i = 0; i < args.length; i++){
-                messageString = messageString + args[i] + " ";
+            for(int i = 1; i < args.length; i++){
+                stringBuilder.append(" ").append(args[i]);
             }
-            Bukkit.broadcastMessage(CityBuild.getPrefix() + " §c§l" + messageString.replaceAll("&", "§"));
+            Bukkit.broadcastMessage(CityBuild.getPrefix() + "§c§l" + stringBuilder.toString().replaceAll("&", "§"));
         }else{
-            String messageString = "";
+            StringBuilder stringBuilder = new StringBuilder(args[0]);
             if(args.length == 0){
                 sender.sendMessage(CityBuild.getPrefix() + "§7Falsche Länge: §c" + args.length);
                 return true;
             }
-            for(int i = 0; i < args.length; i++){
-                messageString = messageString + args[i] + " ";
+            for(int i = 1; i < args.length; i++){
+                stringBuilder.append(" ").append(args[i]);
             }
-            Bukkit.broadcastMessage(CityBuild.getPrefix() + messageString.replaceAll("&", "§"));
+            Bukkit.broadcastMessage(CityBuild.getPrefix() + stringBuilder.toString().replaceAll("&", "§"));
         }
 
         return false;
